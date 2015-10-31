@@ -61,8 +61,17 @@ class Original_File(object):
 				match_columns[column] = track
 		# FIXME this uses the entire_track variable from the last matching column , why??
 		compressed = list(zip(*entire_track))
-		import ipdb; ipdb.set_trace()
-		print(match_columns)
+		#import ipdb; ipdb.set_trace()
+
+		pass_and_fail = pd.DataFrame.from_records(match_columns).fillna(0)
+		pass_df = pass_and_fail[pass_and_fail.index!="fail"]
+		fail_df = pass_and_fail[pass_and_fail.index=="fail"]
+
+		pass_df.sort(inplace=True)
+
+		pass_and_fail = pd.concat([pass_df, fail_df])
+
+		print(pass_and_fail)
 		index = pd.MultiIndex.from_tuples(compressed, names=['condition', 'event'])
 		data_counted = pd.DataFrame(match_columns, index=index).fillna(0)
 		#data_counted.sort_index(inplace=True)
@@ -110,16 +119,8 @@ subfolder = directory.split()
 
 #for key in range(len(sub_keys)):
 #for key, value in subfolder.items():
-print(subfolder['Map_SF_Pipeline_2015_Q1.csv'].data_count('date', len))
+subfolder['Map_SF_Pipeline_2015_Q1.csv'].data_count('date', len)
 	#print('-------------------------------------------')
-
-
-
-
-
-
-
-
 
 
 
